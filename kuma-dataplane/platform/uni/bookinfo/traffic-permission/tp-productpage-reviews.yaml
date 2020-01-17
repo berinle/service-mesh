@@ -1,0 +1,11 @@
+type: TrafficPermission
+name: productpage-review
+mesh: default
+sources:
+  - match:
+      service: productpage
+      # version: '1.0'
+destinations:
+  - match:
+      service: reviews
+      # version: '1.0'

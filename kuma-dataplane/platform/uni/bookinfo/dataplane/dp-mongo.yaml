@@ -1,0 +1,9 @@
+type: Dataplane
+mesh: default
+name: dp-mongo-1
+networking:
+  inbound:
+  - interface: {{ DATA_PLANE_IP }}:37017:27017
+    tags:
+      service: mongo
+      version: '1.0'

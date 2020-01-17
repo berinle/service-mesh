@@ -1,0 +1,13 @@
+type: HealthCheck
+name: productpage-details-hc
+mesh: default
+sources:
+- match:
+    service: productpage-v1
+destinations:
+- match:
+    service: details-v1
+conf:
+  passiveChecks:
+    unhealthyThreshold: 3
+    penaltyInterval: 5      

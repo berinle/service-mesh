@@ -1,0 +1,9 @@
+type: Dataplane
+mesh: default
+name: dp-rating-1
+networking:
+  inbound:
+  - interface: {{ DATA_PLANE_IP }}:39081:9080
+    tags:
+      service: rating
+      version: '1.0'

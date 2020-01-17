@@ -1,0 +1,12 @@
+type: Dataplane
+mesh: default
+name: dp-reviews-1
+networking:
+  inbound:
+  - interface: {{ DATA_PLANE_IP }}:19081:9080
+    tags:
+      service: reviews
+      version: '1.0'
+  outbound:
+  - interface: :39082
+    service: rating

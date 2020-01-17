@@ -1,0 +1,11 @@
+type: TrafficPermission
+name: productpage-details
+mesh: default
+sources:
+  - match:
+      service: productpage
+      # version: '1.0'
+destinations:
+  - match:
+      service: details
+      # version: '1.0'

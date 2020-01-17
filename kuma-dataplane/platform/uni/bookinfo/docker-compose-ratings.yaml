@@ -1,0 +1,35 @@
+version: "3.5"
+
+services:
+  # deploy service into mesh
+  ratings:
+    image: berinle/examples-bookinfo-ratings-v1:latest
+    ports:
+      - "39081:39081"
+    networks:
+      - mesh
+    environment:
+      - ENABLE_RATINGS=true
+    restart: on-failure
+
+  # deploy sidecar along side with service
+  sidecar:
+    image: ${KUMA_DP_DOCKER_IMAGE:-kong-docker-kuma-docker.bintray.io/kuma-dp:latest}
+    command:
+      - run
+      - --log-level=info
+    volumes:
+      - ../secrets/dp-rating-1:/var/kuma.io/kuma-dp/dp-rating-1/token
+    environment:
+      - KUMA_CONTROL_PLANE_API_SERVER_URL={KUMA_CONTROL_PLANE_API_SERVER_URL:-http://localhost:5681}      
+      - KUMA_DATAPLANE_MESH=default
+      - KUMA_DATAPLANE_NAME=dp-rating-1
+      - KUMA_DATAPLANE_ADMIN_PORT=9901
+      - KUMA_DATAPLANE_RUNTIME_TOKEN_PATH=/var/kuma.io/kuma-dp/dp-rating-1/token
+    network_mode: service:ratings
+    depends_on:
+      - ratings
+    restart: on-failure
+
+networks:
+  mesh: {}

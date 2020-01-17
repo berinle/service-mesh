@@ -1,0 +1,9 @@
+type: Dataplane
+mesh: default
+name: dp-details-1
+networking:
+  inbound:
+  - interface: {{ DATA_PLANE_IP }}:29081:9080
+    tags:
+      service: details
+      version: '1.0'

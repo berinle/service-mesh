@@ -1,0 +1,9 @@
+type: TrafficPermission
+name: reviews-rating
+mesh: default
+sources:
+  - match:
+      service: reviews
+destinations:
+  - match:
+      service: rating

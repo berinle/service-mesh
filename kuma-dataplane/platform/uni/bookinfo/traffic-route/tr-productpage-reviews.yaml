@@ -1,0 +1,21 @@
+type: TrafficRoute
+name: productpage-review
+mesh: default
+sources:
+  - match:
+      service: productpage
+destinations:
+  - match:
+      service: reviews
+  # - match:
+  #     service: reviews
+  #     version: '2.0'
+
+conf:
+  - weight: 100
+    destination:
+      service: reviews
+  # - weight: 10
+  #   destination:
+  #     service: reviews
+  #     version: '2.0'

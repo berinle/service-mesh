@@ -1,0 +1,13 @@
+type: HealthCheck
+name: review-rating-hc
+mesh: default
+sources:
+- match:
+    service: review-v1
+destinations:
+- match:
+    service: rating-v1
+conf:
+  passiveChecks:
+    unhealthyThreshold: 3
+    penaltyInterval: 5      

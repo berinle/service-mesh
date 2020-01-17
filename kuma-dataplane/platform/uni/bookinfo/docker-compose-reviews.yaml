@@ -1,0 +1,37 @@
+version: "3.5"
+
+services:
+  # deploy service into mesh
+  reviews:
+    image: berinle/examples-bookinfo-reviews-v1:latest
+    ports:
+      - "19081:19081" #expose the envoy port to host
+    networks:
+      - mesh
+    environment:
+      - RATINGS_HOSTNAME=127.0.0.1
+      - RATINGS_PORT=39082
+      - ENABLE_RATINGS=true
+    restart: on-failure
+
+  # deploy sidecar along side with service
+  reviews-sidecar:
+    image: ${KUMA_DP_DOCKER_IMAGE:-kong-docker-kuma-docker.bintray.io/kuma-dp:latest}
+    command:
+      - run
+      - --log-level=info
+    volumes:
+      - ../secrets/dp-reviews-1:/var/kuma.io/kuma-dp/dp-reviews-1/token
+    environment:
+      - KUMA_CONTROL_PLANE_API_SERVER_URL={KUMA_CONTROL_PLANE_API_SERVER_URL:-http://localhost:5681}      
+      - KUMA_DATAPLANE_MESH=default
+      - KUMA_DATAPLANE_NAME=dp-reviews-1
+      - KUMA_DATAPLANE_ADMIN_PORT=9901
+      - KUMA_DATAPLANE_RUNTIME_TOKEN_PATH=/var/kuma.io/kuma-dp/dp-reviews-1/token
+    network_mode: service:reviews
+    depends_on:
+      - reviews
+    restart: on-failure
+
+networks:
+  mesh: {}

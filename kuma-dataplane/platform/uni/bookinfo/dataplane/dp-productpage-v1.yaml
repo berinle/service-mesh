@@ -1,0 +1,14 @@
+type: Dataplane
+mesh: default
+name: dp-productpage-1
+networking:
+  inbound:
+  - interface: {{ DATA_PLANE_IP }}:49081:9080
+    tags:
+      service: productpage
+      version: '1.0'
+  outbound:
+  - interface: :19082
+    service: reviews
+  - interface: :29082
+    service: details

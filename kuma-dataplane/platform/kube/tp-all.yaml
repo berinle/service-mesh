@@ -1,0 +1,13 @@
+apiVersion: kuma.io/v1alpha1
+kind: TrafficPermission
+mesh: default
+metadata:
+  namespace: kuma-demo
+  name: everything
+spec:
+  sources:
+  - match:
+      service: '*'
+  destinations:
+  - match:
+      service: '*'

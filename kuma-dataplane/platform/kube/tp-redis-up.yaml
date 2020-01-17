@@ -1,0 +1,13 @@
+apiVersion: kuma.io/v1alpha1
+kind: TrafficPermission
+mesh: default
+metadata:
+  namespace: kuma-demo
+  name: backend-to-redis
+spec:
+  sources:
+  - match:
+      service: backend.kuma-demo.svc:3001
+  destinations:
+  - match:
+      service: redis.kuma-demo.svc:6379

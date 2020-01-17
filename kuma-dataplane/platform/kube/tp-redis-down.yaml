@@ -1,0 +1,27 @@
+apiVersion: kuma.io/v1alpha1
+kind: TrafficPermission
+mesh: default
+metadata:
+  namespace: kuma-demo
+  name: frontend-to-backend
+spec:
+  sources:
+  - match:
+      service: frontend.kuma-demo.svc:80
+  destinations:
+  - match:
+      service: backend.kuma-demo.svc:3001
+---
+apiVersion: kuma.io/v1alpha1
+kind: TrafficPermission
+mesh: default
+metadata:
+  namespace: kuma-demo
+  name: backend-to-elasticsearch
+spec:
+  sources:
+  - match:
+      service: backend.kuma-demo.svc:3001
+  destinations:
+  - match:
+      service: elasticsearch.kuma-demo.svc:80

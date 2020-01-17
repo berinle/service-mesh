@@ -1,0 +1,10 @@
+apiVersion: kuma.io/v1alpha1
+kind: Mesh
+metadata:
+  name: default
+  namespace: kuma-system
+spec:
+  mtls:
+    ca:
+      builtin: {}
+    enabled: true

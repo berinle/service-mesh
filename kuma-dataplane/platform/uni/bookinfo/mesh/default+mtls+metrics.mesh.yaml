@@ -1,0 +1,8 @@
+type: Mesh
+name: default
+metrics:
+  prometheus: {}
+mtls:
+  enabled: true
+  ca:
+    builtin: {}

@@ -7,7 +7,8 @@ services:
     ports:
       - "29081:29081" #expose the envoy port to host
     networks:
-      - mesh
+      mesh:
+        ipv4_address: 192.168.16.4
     restart: on-failure
 
   # deploy sidecar along side with service
@@ -19,7 +20,7 @@ services:
     volumes:
       - ../secrets/dp-details-1:/var/kuma.io/kuma-dp/dp-details-1/token
     environment:
-      - KUMA_CONTROL_PLANE_API_SERVER_URL={KUMA_CONTROL_PLANE_API_SERVER_URL:-http://localhost:5681}      
+      - KUMA_CONTROL_PLANE_API_SERVER_URL=${KUMA_CONTROL_PLANE_API_SERVER_URL:-http://localhost:5681}
       - KUMA_DATAPLANE_MESH=default
       - KUMA_DATAPLANE_NAME=dp-details-1
       - KUMA_DATAPLANE_ADMIN_PORT=9901

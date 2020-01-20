@@ -1,0 +1,61 @@
+version: "3.5"
+
+services:
+  #
+  # Kuma Control Plane in "universal" mode with "in-memory" configuration store.
+  #
+  kuma-control-plane:
+    # image name must be provided via environment variable KUMA_CP_DOCKER_IMAGE
+    image: ${KUMA_CP_DOCKER_IMAGE:-kong-docker-kuma-docker.bintray.io/kuma-cp:latest}
+    command:
+    - run
+    - --log-level=info
+    environment:
+    # DNS name of the Kuma xDS server
+    - KUMA_GENERAL_ADVERTISED_HOSTNAME=kuma-control-plane
+    expose:
+    - "5678"
+    - "5679"
+    - "5680"
+    - "5681"
+    - "5682"
+    - "5683"
+    - "5684"
+    ports:
+    - "5681:5681" # allow usage of `kumactl` on the host machine
+    networks:
+      mesh:
+        ipv4_address: 192.168.16.200
+        aliases:
+        - kuma-control-plane
+    restart: on-failure
+
+  #
+  # Setup script for Book Info example.
+  #
+  # Uses `kumactl` to create Dataplane resources, generate dataplane tokens, etc.
+  #
+  kuma-setup-book-info:
+    # image name must be provided via environment variable KUMACTL_DOCKER_IMAGE
+    image: ${KUMACTL_DOCKER_IMAGE:-kong-docker-kuma-docker.bintray.io/kumactl:latest}
+    volumes:
+    - ./kuma-setup-book-info.sh:/kuma/kuma-setup-book-info.sh
+    - ./dataplane:/kuma/dataplanes
+    - ../secrets:/kuma/tokens
+    environment:
+    - INPUT_DATAPLANE_DIR=/kuma/dataplanes
+    - OUTPUT_TOKEN_DIR=/kuma/tokens
+    command:
+      - /kuma/kuma-setup-book-info.sh
+    network_mode: service:kuma-control-plane
+    depends_on:
+      - kuma-control-plane
+    restart: on-failure
+
+networks:
+  mesh:
+    ipam:
+      driver: default
+      config:
+      # use static IPs to simplify setup workflow
+      - subnet: "192.168.16.0/24"

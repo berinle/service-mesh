@@ -3,11 +3,10 @@ mesh: default
 name: dp-rating-2
 networking:
   inbound:
-  - interface: {{ DATA_PLANE_IP }}:39091:39090
+  - interface: {{ DATA_PLANE_IP }}:39091:9080
     tags:
       service: rating
       version: '2.0'
   outbound:
-    # - interface: :127018
-    - interface: :37018
-      service: mongo
+  - interface: :7017
+    service: mongo

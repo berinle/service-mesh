@@ -22,7 +22,7 @@ services:
       - run
       - --log-level=info
     volumes:
-      - ../secrets/dp-reviews-1:/var/kuma.io/kuma-dp/dp-reviews-1/token
+      - ${KUMA_TOKENS_DIR:-./secrets}/dp-reviews-1:/var/kuma.io/kuma-dp/dp-reviews-1/token
     environment:
       - KUMA_CONTROL_PLANE_API_SERVER_URL=${KUMA_CONTROL_PLANE_API_SERVER_URL:-http://localhost:5681}
       - KUMA_DATAPLANE_MESH=default

@@ -2,34 +2,35 @@ version: "3.5"
 
 services:
   # deploy service into mesh
-  ratings:
-    image: berinle/examples-bookinfo-ratings-v1:latest
+  ratings-v2:
+    image: berinle/examples-bookinfo-ratings-v2:latest
     ports:
-      - "39081:39081"
+      - "39091:39091"
     networks:
       mesh:
-        ipv4_address: 192.168.16.2
+        ipv4_address: 192.168.16.6
     environment:
       - ENABLE_RATINGS=true
+      - MONGO_DB_URL=mongodb://127.0.0.1:7017/test
     restart: on-failure
 
   # deploy sidecar along side with service
-  sidecar:
+  ratings-v2-sidecar:
     image: ${KUMA_DP_DOCKER_IMAGE:-kong-docker-kuma-docker.bintray.io/kuma-dp:latest}
     command:
       - run
       - --log-level=info
     volumes:
-      - ${KUMA_TOKENS_DIR:-./secrets}/dp-rating-1:/var/kuma.io/kuma-dp/dp-rating-1/token
+      - ${KUMA_TOKENS_DIR:-./secrets}/dp-rating-2:/var/kuma.io/kuma-dp/dp-rating-2/token
     environment:
       - KUMA_CONTROL_PLANE_API_SERVER_URL=${KUMA_CONTROL_PLANE_API_SERVER_URL:-http://localhost:5681}
       - KUMA_DATAPLANE_MESH=default
-      - KUMA_DATAPLANE_NAME=dp-rating-1
+      - KUMA_DATAPLANE_NAME=dp-rating-2
       - KUMA_DATAPLANE_ADMIN_PORT=9901
-      - KUMA_DATAPLANE_RUNTIME_TOKEN_PATH=/var/kuma.io/kuma-dp/dp-rating-1/token
-    network_mode: service:ratings
+      - KUMA_DATAPLANE_RUNTIME_TOKEN_PATH=/var/kuma.io/kuma-dp/dp-rating-2/token
+    network_mode: service:ratings-v2
     depends_on:
-      - ratings
+      - ratings-v2
     restart: on-failure
 
 networks:

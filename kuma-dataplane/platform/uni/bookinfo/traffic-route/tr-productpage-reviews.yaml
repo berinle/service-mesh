@@ -7,15 +7,12 @@ sources:
 destinations:
   - match:
       service: reviews
-  # - match:
-  #     service: reviews
-  #     version: '2.0'
-
 conf:
-  - weight: 100
+  - weight: 70
     destination:
       service: reviews
-  # - weight: 10
-  #   destination:
-  #     service: reviews
-  #     version: '2.0'
+      version: '1.0'
+  - weight: 30
+    destination:
+      service: reviews
+      version: '3.0'

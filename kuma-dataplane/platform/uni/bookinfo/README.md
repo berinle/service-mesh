@@ -25,7 +25,7 @@
 3. Verify that dataplane tokens have been generated:
 
    ```shell
-   ls -1 ../secrets/
+   ls -l ../secrets/
 
    dp-details-1
    dp-productpage-1

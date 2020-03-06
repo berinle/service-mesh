@@ -1,0 +1,4 @@
+kuma-dataplane/platform/uni/bookinfo/secrets/*
+.DS_Store
+**/.DS_Store
+*.tfvars

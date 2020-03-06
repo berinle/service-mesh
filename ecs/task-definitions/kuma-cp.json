@@ -1,0 +1,53 @@
+[
+    {
+        "command": [
+            "run",
+            "--log-level=info"
+        ],
+        "cpu": 0,
+        "environment": [],
+        "essential": true,
+        "image": "kong-docker-kuma-docker.bintray.io/kuma-cp:latest",
+        "memory": 128,
+        "mountPoints": [],
+        "name": "kuma-cp",
+        "portMappings": [
+            {
+                "containerPort": 5678,
+                "hostPort": 5678,
+                "protocol": "tcp"
+            },
+            {
+                "containerPort": 5679,
+                "hostPort": 5679,
+                "protocol": "tcp"
+            },
+            {
+                "containerPort": 5680,
+                "hostPort": 5680,
+                "protocol": "tcp"
+            },
+            {
+                "containerPort": 5681,
+                "hostPort": 5681,
+                "protocol": "tcp"
+            },
+            {
+                "containerPort": 5682,
+                "hostPort": 5682,
+                "protocol": "tcp"
+            },
+            {
+                "containerPort": 5683,
+                "hostPort": 5683,
+                "protocol": "tcp"
+            },
+            {
+                "containerPort": 5684,
+                "hostPort": 5684,
+                "protocol": "tcp"
+            }
+        ],
+        "volumesFrom": []
+    }
+]
